@@ -1,0 +1,2 @@
+# mnn
+/opt/mnn
