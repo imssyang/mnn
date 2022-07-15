@@ -1,0 +1,23 @@
+
+[v1.2.1-android]
+# 预编译
+cd MNN-1.2.1
+export ANDROID_NDK=/opt/android/sdk/ndk/25.0.8775105
+./schema/generate.sh
+
+# 编译运行时库
+cd MNN-1.2.1/project/android
+mkdir build_32 && cd build_32 && ../build_32.sh  # arm_v7
+mkdir build_64 && cd build_64 && ../build_64.sh  # arm_v8
+
+# 编译
+
+cd MNN-1.2.1
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=/opt/mnn \
+  -DMNN_BUILD_CONVERTER=true \
+  -DProtobuf_INCLUDE_DIR=/opt/protobuf/include \
+  -DProtobuf_LIBRARY=/opt/protobuf/lib/libprotobuf.so
+make -j8
+
